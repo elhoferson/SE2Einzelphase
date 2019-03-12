@@ -19,62 +19,46 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import at.alehofer.se2einzelphase.threads.AbstractOutputThread;
+import at.alehofer.se2einzelphase.threads.std.SocketOutputThread;
+import at.alehofer.se2einzelphase.threads.std.SortOutputThread;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final String HOST = "se2-isys.aau.at";
-    private static final int PORT = 53212;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("TASK" ,"My Task is nr.: " + (11816488 % 7));
+        Log.i("TASK", "Do it");
     }
 
 
     public void onClick(View v) {
         setResult("");
-        String result = null;
         String matrikelNumber = getMatrikelNumber();
         if (StringUtils.isBlank(matrikelNumber)) {
             Log.i("NUMBER", "no number typed in");
             return;
         }
-
+        AbstractOutputThread t = null;
          switch(v.getId()) {
             case R.id.sendButton:
-                result = sendToServer(matrikelNumber);
+                t = new SocketOutputThread(matrikelNumber);
                 break;
             case R.id.calculateButton:
-                result = calculateResult(matrikelNumber);
+                t = new SortOutputThread(matrikelNumber);
                 break;
         }
-
-        setResult(result);
-    }
-
-    private String sendToServer(String matrikelNumber) {
-        String result = null;
+        t.start();
         try {
-            Socket client = new Socket(HOST, PORT);
-            DataOutputStream sendToServer = new DataOutputStream(client.getOutputStream());
-            sendToServer.writeBytes(matrikelNumber);
-
-            BufferedReader resultReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            result = resultReader.readLine();
-
-            client.close();
-
-        } catch (IOException e) {
-            Log.e("SOCKET", "error calling socket " + HOST + ":" + PORT, e);
+            t.join();
+            setResult(t.getResult());
+        } catch (InterruptedException e) {
+            Log.e("THREAD", "thread interrupted", e);
         }
-        return result;
-
-    }
-
-    private String calculateResult(String matrikelNumber) {
-        String result = matrikelNumber;
-        return result;
     }
 
     private String getMatrikelNumber() {

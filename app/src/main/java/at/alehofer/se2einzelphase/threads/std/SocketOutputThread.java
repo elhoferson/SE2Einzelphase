@@ -12,7 +12,7 @@ import at.alehofer.se2einzelphase.threads.AbstractOutputThread;
 
 public class SocketOutputThread extends AbstractOutputThread {
 
-    private static final String HOST = "http://se2-isys.aau.at/";
+    private static final String HOST = "se2-isys.aau.at";
     private static final int PORT = 53212;
 
     public SocketOutputThread (String matrikelNumber) {
@@ -25,7 +25,7 @@ public class SocketOutputThread extends AbstractOutputThread {
         try {
             Socket client = new Socket(HOST, PORT);
             DataOutputStream sendToServer = new DataOutputStream(client.getOutputStream());
-            sendToServer.writeBytes(matrikelNumber);
+            sendToServer.writeBytes(matrikelNumber+"\n");
 
             BufferedReader resultReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
             result = resultReader.readLine();

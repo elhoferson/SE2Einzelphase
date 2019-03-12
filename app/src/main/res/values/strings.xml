@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SE2 Einzelphase</string>
+    <string name="matrikelnumber_info">Bitte Matrikelnummer eingeben:</string>
+    <string name="button_send">Abschicken</string>
+    <string name="button_calculate">Berechnen</string>
+    <string name="answer_server">Antwort vom Server:</string>
 </resources>

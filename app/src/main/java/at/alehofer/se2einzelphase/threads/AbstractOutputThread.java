@@ -6,7 +6,6 @@ public abstract class AbstractOutputThread extends Thread {
 
     private String matrikelNumber;
     private TextView outputView;
-    private String result;
 
     public AbstractOutputThread (String matrikelNumber, TextView outputView) {
         this.matrikelNumber = matrikelNumber;
@@ -15,7 +14,7 @@ public abstract class AbstractOutputThread extends Thread {
 
     @Override
     public void run() {
-        result = calculate(matrikelNumber);
+        String result = calculate(matrikelNumber);
         outputView.setText(result);
     }
 

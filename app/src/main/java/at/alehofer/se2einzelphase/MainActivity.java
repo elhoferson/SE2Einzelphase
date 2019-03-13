@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.calculateButton:
                 t = new SortOutputThread(matrikelNumber, serverAnswerOutput);
                 break;
+            default:
+                // nothing to do
         }
 
         if (t != null) {

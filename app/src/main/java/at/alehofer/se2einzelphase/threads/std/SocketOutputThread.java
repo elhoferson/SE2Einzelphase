@@ -13,6 +13,7 @@ import at.alehofer.se2einzelphase.threads.AbstractOutputThread;
 
 public class SocketOutputThread extends AbstractOutputThread {
 
+    private static final String TAG_SOCKET = "SOCKET";
     private static final String HOST = "se2-isys.aau.at";
     private static final int PORT = 53212;
 
@@ -23,18 +24,25 @@ public class SocketOutputThread extends AbstractOutputThread {
     @Override
     public String calculate(String matrikelNumber) {
         String result = null;
+        Socket client = null;
         try {
-            Socket client = new Socket(HOST, PORT);
+            client = new Socket(HOST, PORT);
             DataOutputStream sendToServer = new DataOutputStream(client.getOutputStream());
             sendToServer.writeBytes(matrikelNumber+"\n");
 
             BufferedReader resultReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
             result = resultReader.readLine();
 
-            client.close();
-
         } catch (IOException e) {
-            Log.e("SOCKET", "error calling socket " + HOST + ":" + PORT, e);
+            Log.e(TAG_SOCKET, "error calling socket " + HOST + ":" + PORT, e);
+        } finally {
+            if (client != null) {
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    Log.w(TAG_SOCKET, "error closing socket " + HOST + ":" + PORT, e);
+                }
+            }
         }
         return result;
     }

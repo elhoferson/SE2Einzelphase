@@ -1,6 +1,7 @@
 package at.alehofer.se2einzelphase.threads.std;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -15,8 +16,8 @@ public class SocketOutputThread extends AbstractOutputThread {
     private static final String HOST = "se2-isys.aau.at";
     private static final int PORT = 53212;
 
-    public SocketOutputThread (String matrikelNumber) {
-        super(matrikelNumber);
+    public SocketOutputThread (String matrikelNumber, TextView outputView) {
+        super(matrikelNumber, outputView);
     }
 
     @Override

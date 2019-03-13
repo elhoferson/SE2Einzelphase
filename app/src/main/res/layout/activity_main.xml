@@ -15,9 +15,10 @@
         android:layout_marginTop="24dp"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:text="@string/answer_server"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/matrikelnumberInput"
-        tools:text="@string/answer_server" />
+        />
 
     <Button
         android:id="@+id/calculateButton"
@@ -29,22 +30,23 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="28dp"
         android:onClick="onClick"
+        android:text="@string/button_calculate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.175"
         app:layout_constraintStart_toEndOf="@+id/sendButton"
-        tools:text="@string/button_calculate" />
+        />
 
     <EditText
         android:id="@+id/matrikelnumberInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
         android:layout_marginTop="44dp"
         android:ems="10"
+        android:hint="@string/matrikelnumber_hint"
         android:inputType="number"
-        android:text="11816488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/matrikelnumberInfo" />
 
@@ -57,7 +59,6 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:gravity="left"
         android:textSize="18sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,21 +74,22 @@
         android:layout_marginLeft="60dp"
         android:layout_marginBottom="28dp"
         android:onClick="onClick"
+        android:text="@string/button_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/button_send" />
+        />
 
     <TextView
         android:id="@+id/matrikelnumberInfo"
         android:layout_width="266dp"
         android:layout_height="40dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/matrikelnumber_info"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/matrikelnumber_info" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

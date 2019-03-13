@@ -1,23 +1,13 @@
 package at.alehofer.se2einzelphase;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
 
 import at.alehofer.se2einzelphase.threads.AbstractOutputThread;
 import at.alehofer.se2einzelphase.threads.std.SocketOutputThread;
@@ -31,48 +21,48 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // calculate task to do
+        // tasks:
+        //0 Jede zweite Ziffer der Matrikelnummer durch Ascii Character ersetzen, wobei  1 = a, 2 = b, …
+        //1 Quersumme der Matrikelnummer bilden und anschließend als Binärzahl darstellen
+        //2 Ziffern der Größe nach sortieren, Primzahlen werden gestrichen
+        //3 Nur jene Ziffern ausgeben, die Primzahlen sind
+        //4 Alternierende Quersumme bilden und ausgeben ob diese gerade oder ungerade ist.
+        //5 Matrikelnummer sortieren wobei zuerst alle geraden dann alle ungeraden Ziffern gereiht sind
+        //6 Multiplizieren Sie die Indizes der Matrikelnummer an deren Position gerade
+        //  Ziffern stehen und geben Sie das Produkt aus
         Log.i("TASK" ,"My Task is nr.: " + (11816488 % 7));
         Log.i("TASK", "Do it");
     }
 
 
     public void onClick(View v) {
-        setResult("");
+        TextView serverAnswerOutput =  findViewById(R.id.serverAnswerOutput);
+        serverAnswerOutput.clearComposingText();
         String matrikelNumber = getMatrikelNumber();
         if (StringUtils.isBlank(matrikelNumber)) {
-            Log.i("NUMBER", "no number typed in");
+            serverAnswerOutput.setText(getString(R.string.matrikelnumber_warn));
             return;
         }
+
         AbstractOutputThread t = null;
          switch(v.getId()) {
             case R.id.sendButton:
-                t = new SocketOutputThread(matrikelNumber);
+                t = new SocketOutputThread(matrikelNumber, serverAnswerOutput);
                 break;
             case R.id.calculateButton:
-                t = new SortOutputThread(matrikelNumber);
+                t = new SortOutputThread(matrikelNumber, serverAnswerOutput);
                 break;
         }
-        t.start();
-        try {
-            t.join();
-            setResult(t.getResult());
-        } catch (InterruptedException e) {
-            Log.e("THREAD", "thread interrupted", e);
+
+        if (t != null) {
+            t.start();
         }
     }
 
     private String getMatrikelNumber() {
-        EditText matrikelNumberInput = (EditText) findViewById(R.id.matrikelnumberInput);
+        EditText matrikelNumberInput = findViewById(R.id.matrikelnumberInput);
         return matrikelNumberInput.getText().toString();
-    }
-
-    private void setResult(String result) {
-        if (StringUtils.isNotBlank(result)) {
-            TextView serverAnswerOutput = (TextView) findViewById(R.id.serverAnswerOutput);
-            serverAnswerOutput.setText(result);
-        } else {
-            Log.e("RESULT", "no result was given");
-        }
     }
 
 

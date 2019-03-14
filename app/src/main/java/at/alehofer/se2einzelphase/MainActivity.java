@@ -45,20 +45,15 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        AbstractOutputThread t = null;
          switch(v.getId()) {
             case R.id.sendButton:
-                t = new SocketOutputThread(matrikelNumber, serverAnswerOutput);
+                new SocketOutputThread(matrikelNumber, serverAnswerOutput).execute();
                 break;
             case R.id.calculateButton:
-                t = new SortOutputThread(matrikelNumber, serverAnswerOutput);
+                new SortOutputThread(matrikelNumber, serverAnswerOutput).execute();
                 break;
             default:
                 // nothing to do
-        }
-
-        if (t != null) {
-            t.start();
         }
     }
 

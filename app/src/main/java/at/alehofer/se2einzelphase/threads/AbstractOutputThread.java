@@ -1,8 +1,9 @@
 package at.alehofer.se2einzelphase.threads;
 
+import android.os.AsyncTask;
 import android.widget.TextView;
 
-public abstract class AbstractOutputThread extends Thread {
+public abstract class AbstractOutputThread extends AsyncTask<String, Void, String> {
 
     private String matrikelNumber;
     private TextView outputView;
@@ -12,11 +13,16 @@ public abstract class AbstractOutputThread extends Thread {
         this.outputView = outputView;
     }
 
-    @Override
-    public void run() {
-        String result = calculate(matrikelNumber);
-        outputView.setText(result);
-    }
 
     public abstract String calculate(String matrikelNumber);
+
+    @Override
+    protected String doInBackground(String... strings) {
+        return calculate(matrikelNumber);
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        outputView.setText(s);
+    }
 }
